@@ -7,6 +7,7 @@ import io.github.classgraph.ClassGraph
 import org.gradle.api.InvalidUserDataException
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile as IKotlinCompile
 
 abstract class ArrowMetaGradlePlugin : Plugin<Project> {
 
@@ -47,7 +48,7 @@ abstract class ArrowMetaGradlePlugin : Plugin<Project> {
   protected fun addCompilerPlugin(project: Project, plugin: String) =
     project.afterEvaluate { p ->
       println("Applying $plugin for ${project.name} ...")
-      p.tasks.withType(KotlinCompile::class.java).configureEach {
+      p.tasks.withType(IKotlinCompile::class.java).configureEach {
         it.kotlinOptions.freeCompilerArgs += listOf("-Xplugin=${classpathOf(plugin)}")
       }
     }
